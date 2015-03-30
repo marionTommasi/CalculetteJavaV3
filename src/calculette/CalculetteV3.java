@@ -32,6 +32,8 @@ public class CalculetteV3 {
     
     /**
      * On crée une fonction qui renvoie le calcul rentré en notation RPN (postfixée)
+     * @param calcul Le calcul initial, formaté en string et en mode infixée (mode classique de représentation de calcul, tel qu'il sera tapé dans la calculette, ex: (2+3)*4/9)
+     * @return resultat Le calcul transformée en notation postfixée: sans parenthèse, le calcul se lit linéairement de gauche à droite, 2 opérandes pour un opérateur. Tous les opérateurs s'associent avec l'opérande de gauche, à l'exception de la puissance (ex du dessus: 2 3 + 4 * 9 /)
      */
     public static String calculToPostfix(String calcul)
     {
@@ -45,8 +47,14 @@ public class CalculetteV3 {
 //            System.out.println("caractere: " + caractere);
             // Si le caractere est un operateur
             if (operateurs.containsKey(caractere)) {
-                // tant que la liste n'est pas vide et que la priorité de son dernier element (si c'est bien un opérateur) est supérieure à l'opérateur qu'on vient de trouver, on l'ajoute au résultat
-                while (!liste.isEmpty() && prioriteSuperieure(caractere, liste.get(liste.size()-1))) {
+                // tant que la liste n'est pas vide et que la priorité de son dernier element (si c'est bien un opérateur) est supérieure à l'opérateur qu'on vient de trouver, on l'ajoute au résultat.
+                // On exclut les puissances de la comparaison car elles auraient une priorité identique et leur association se fait avec l'opérande de droite (contrairement aux autres opérateurs qui s'associent avec l'opérande de gauche.
+                // Ex: 5^2^3 = ((5)^2)^3 != (RPN) 5 ^ 2 ^ 3 = (RPN) 5 2 3 ^ ^)
+                while (!liste.isEmpty() &&
+                        ((prioriteSuperieure(caractere, liste.get(liste.size()-1)) && !caractere.equals("^"))
+                        || (caractere.equals(liste.get(liste.size()-1)) && (!caractere.equals("^")))
+                        ) ) {
+
                     resultat.append(liste.get(liste.size()-1)).append(" ");
                     liste.remove(liste.size()-1);
                 }
@@ -75,6 +83,7 @@ public class CalculetteV3 {
             }
 //            System.out.println("liste: " + liste);
 //            System.out.println("resultat: " + resultat);
+//            System.out.println("-----------");
         }
         
         // Après le foreach, tant que la liste est pleine, on la vide dans le résultat.
@@ -92,7 +101,7 @@ public class CalculetteV3 {
      */
     
     public static void main(String[] args) {
-        System.out.println(calculToPostfix("( 5 + 7 ) * 2"));
+        System.out.println(calculToPostfix("( 2 + 3 ) * ( 4 / 9 ^ 2 ) ^ 3"));
     }
     
 }

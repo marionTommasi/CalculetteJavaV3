@@ -40,7 +40,7 @@ public class CalculetteV3 {
         // On crée un StringBuilder qui va se remplir avec le résultat
         StringBuilder resultat = new StringBuilder();
         // On crée une liste vide qui va servir de tampon pour arranger le calcul
-        ArrayList<String> liste = new ArrayList<String>();
+        ArrayList<String> liste = new ArrayList<>();
         
         // On fait un foreach sur chaque caractere de la chaine de calcul transformée en tableau par une séparation sur les espaces
         for(String caractere : calcul.split(" ")) {
@@ -51,9 +51,8 @@ public class CalculetteV3 {
                 // On exclut les puissances de la comparaison car elles auraient une priorité identique et leur association se fait avec l'opérande de droite (contrairement aux autres opérateurs qui s'associent avec l'opérande de gauche.
                 // Ex: 5^2^3 = ((5)^2)^3 != (RPN) 5 ^ 2 ^ 3 = (RPN) 5 2 3 ^ ^)
                 while (!liste.isEmpty() &&
-                        ((prioriteSuperieure(caractere, liste.get(liste.size()-1)) && !caractere.equals("^"))
-                        || (caractere.equals(liste.get(liste.size()-1)) && (!caractere.equals("^")))
-                        ) ) {
+                        (prioriteSuperieure(caractere, liste.get(liste.size()-1)) && !caractere.equals("^"))
+                         ) {
 
                     resultat.append(liste.get(liste.size()-1)).append(" ");
                     liste.remove(liste.size()-1);
@@ -101,7 +100,7 @@ public class CalculetteV3 {
      */
     
     public static void main(String[] args) {
-        System.out.println(calculToPostfix("( 2 + 3 ) * ( 4 / 9 ^ 2 ) ^ 3"));
+        System.out.println(calculToPostfix("( 2 + 3 ) * 4 / 9 ^ 2 * 5 ^ 3"));
     }
     
 }

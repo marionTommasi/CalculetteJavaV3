@@ -48,8 +48,8 @@ public class CalculetteV3 {
             // Si le caractere est un operateur
             if (operateurs.containsKey(caractere)) {
                 // tant que la liste n'est pas vide et que la priorité de son dernier element (si c'est bien un opérateur) est supérieure à l'opérateur qu'on vient de trouver, on l'ajoute au résultat.
-                // On exclut les puissances de la comparaison car elles auraient une priorité identique et leur association se fait avec l'opérande de droite (contrairement aux autres opérateurs qui s'associent avec l'opérande de gauche.
-                // Ex: 5^2^3 = ((5)^2)^3 != (RPN) 5 ^ 2 ^ 3 = (RPN) 5 2 3 ^ ^)
+                // On exclut les puissances de la comparaison car elles auraient une priorité identique et leur association se fait d'abord avec l'opérande de droite (contrairement aux autres opérateurs qui s'associent avec l'opérande de gauche.
+                // Ex: 5^2^3 = 5^(2^3) != (RPN) 5 ^ 2 ^ 3 = (RPN) 5 2 3 ^ ^)
                 while (!liste.isEmpty() &&
                         (prioriteSuperieure(caractere, liste.get(liste.size()-1)) && !caractere.equals("^"))
                          ) {
@@ -100,7 +100,10 @@ public class CalculetteV3 {
      */
     
     public static void main(String[] args) {
-        System.out.println(calculToPostfix("( 2 + 3 ) * 4 / 9 ^ 2 * 5 ^ 3"));
+        CalcGUI GUI = new CalcGUI();
+        GUI.setTitle("Calculette V3");
+        GUI.setVisible(true);
+        System.out.println(calculToPostfix("( - 2 + 3 ) * ( ( 4 / 9 ) ^ ( 2 * 5 ) ^ 3 )"));
     }
     
 }

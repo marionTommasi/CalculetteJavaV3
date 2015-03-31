@@ -417,13 +417,8 @@ public class CalcGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonPointActionPerformed
 
     private void jButtonParentheseOuvranteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonParentheseOuvranteActionPerformed
-        // Si la ligne de calcul est vide: on peut ajouter la parenthese
-        if (jTextFieldCalcul.getText().isEmpty()) {
-            jTextFieldCalcul.setText("( ");
-            compteurParentheses++;
-        } else
-        // Sinon si l'avant dernier caractere de la ligne de calcul est une parenthese, on peut ajouter une parenthese
-        if ('(' == jTextFieldCalcul.getText().charAt(jTextFieldCalcul.getText().length() - 2) ) {
+        // Si la ligne de calcul est vide ou si l'avant dernier caractere de la ligne de calcul est une parenthese, on peut ajouter une parenthese
+        if (jTextFieldCalcul.getText().isEmpty() || '(' == jTextFieldCalcul.getText().charAt(jTextFieldCalcul.getText().length() - 2) ) {
             jTextFieldCalcul.setText(jTextFieldCalcul.getText() + "( ");
             compteurParentheses++;
         } else {
@@ -449,7 +444,7 @@ public class CalcGUI extends javax.swing.JFrame {
 
     private void jButtonCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCActionPerformed
         jTextFieldSaisie.setText("0");
-        jTextFieldCalcul.setText("0");
+        jTextFieldCalcul.setText(null);
     }//GEN-LAST:event_jButtonCActionPerformed
 
     /**

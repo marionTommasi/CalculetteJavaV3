@@ -11,7 +11,7 @@ public class CalculetteV3 {
     /**
      * On fixe les opérateurs et leur priorité
      */
-    private static final Map <String, Integer> operateurs = new HashMap<String, Integer>() {{
+    public static final Map <String, Integer> operateurs = new HashMap<String, Integer>() {{
         put("^", 4);
         put("*", 3);
         put("/", 3);
@@ -31,7 +31,7 @@ public class CalculetteV3 {
     }
     
     /**
-     * On crée une fonction qui renvoie le calcul rentré en notation RPN (postfixée)
+     * On crée une fonction qui renvoie le calcul rentré en notation RPN (postfixée) : algorithme Shunting yard de Dijkstra
      * @param calcul Le calcul initial, formaté en string et en mode infixée (mode classique de représentation de calcul, tel qu'il sera tapé dans la calculette, ex: (2+3)*4/9)
      * @return resultat Le calcul transformée en notation postfixée: sans parenthèse, le calcul se lit linéairement de gauche à droite, 2 opérandes pour un opérateur. Tous les opérateurs s'associent avec l'opérande de gauche, à l'exception de la puissance (ex du dessus: 2 3 + 4 * 9 /)
      */
@@ -93,6 +93,63 @@ public class CalculetteV3 {
         return resultat.toString();
     }
     
+    public static String postfixToResultat(String postfix)
+    {
+        String resultat;
+        // On crée une liste vide qui va servir de tampon pour faire le calcul
+        ArrayList<Double> liste = new ArrayList<>();
+        
+        // On fait un foreach sur chaque caractere de la chaine de calcul transformée en tableau par une séparation sur les espaces
+        for(String nombre : postfix.split(" ")) {
+//            System.out.println("caractere: " + nombre);
+            
+            // D'abord on check si le nombre est bien un nombre (et non un opérateur)
+            Double nombreDecimal = null;
+            try {
+                nombreDecimal = Double.parseDouble(nombre);
+            } catch (NumberFormatException e) {} 
+            if (nombreDecimal != null) {
+                // Si c'est bien le cas, on le stocke dans la liste en tant que double
+                liste.add(Double.parseDouble(nombre));
+//                System.out.println(liste);
+            } else if ("^".equals(nombre)) {
+                Double operande2 = liste.get(liste.size()-1);
+                liste.remove(liste.size()-1);
+                Double operande1 = liste.get(liste.size()-1);
+                liste.remove(liste.size()-1);
+                liste.add(Math.pow(operande1, operande2));
+            } else if ("*".equals(nombre)) {
+                Double operande2 = liste.get(liste.size()-1);
+                liste.remove(liste.size()-1);
+                Double operande1 = liste.get(liste.size()-1);
+                liste.remove(liste.size()-1);
+                liste.add(operande1 * operande2);
+            } else if ("/".equals(nombre)) {
+                Double operande2 = liste.get(liste.size()-1);
+                liste.remove(liste.size()-1);
+                Double operande1 = liste.get(liste.size()-1);
+                liste.remove(liste.size()-1);
+                liste.add(operande1 / operande2);
+            } else if ("+".equals(nombre)) {
+                Double operande2 = liste.get(liste.size()-1);
+                liste.remove(liste.size()-1);
+                Double operande1 = liste.get(liste.size()-1);
+                liste.remove(liste.size()-1);
+                liste.add(operande1 + operande2);
+            } else if ("-".equals(nombre)) {
+                Double operande2 = liste.get(liste.size()-1);
+                liste.remove(liste.size()-1);
+                Double operande1 = liste.get(liste.size()-1);
+                liste.remove(liste.size()-1);
+                liste.add(operande1 - operande2);
+            } else {
+                return resultat = "Erreur";
+            }
+        }
+//        System.out.println(liste);
+        return resultat = String.valueOf(liste.get(liste.size()-1));
+    }
+    
     
     
     /**
@@ -100,10 +157,8 @@ public class CalculetteV3 {
      */
     
     public static void main(String[] args) {
-        CalcGUI GUI = new CalcGUI();
-        GUI.setTitle("Calculette V3");
-        GUI.setVisible(true);
-        System.out.println(calculToPostfix("( - 2 + 3 ) * ( ( 4 / 9 ) ^ ( 2 * 5 ) ^ 3 )"));
+        System.out.println(calculToPostfix("( - 2 + 3 ) * ( ( 4 / 9 ) ^ ( - 2 * 5 ) ^ 3 )"));
+        System.out.println(postfixToResultat(calculToPostfix("( - 2 + 3 ) * ( ( 4 / 9 ) ^ ( - 2 * 5 ) ^ 3 )")));
     }
     
 }

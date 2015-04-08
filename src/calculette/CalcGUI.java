@@ -6,7 +6,7 @@ import javax.swing.*;
  *
  * @author Romain
  */
-public class CalcGUI extends javax.swing.JFrame {
+public class CalcGUI extends javax.swing.JFrame  {
     
     /**
      * S'incremente et se décrémente au fur et à mesure de l'ouverture/fermeture des parentheses (pour les fermer toutes si calcul executé)
@@ -20,7 +20,7 @@ public class CalcGUI extends javax.swing.JFrame {
      */
     public CalcGUI() {
         initComponents();
-        jTextFieldSaisie.setText("0");
+        jTextFieldSaisie.setText(null);
         jTextFieldCalcul.setText(null);
         compteurParentheses = 0;
     }
@@ -39,6 +39,7 @@ public class CalcGUI extends javax.swing.JFrame {
         jButtonCE = new javax.swing.JButton();
         jButtonC = new javax.swing.JButton();
         jButtonParentheseOuvrante = new javax.swing.JButton();
+        jButtonParentheseFermante = new javax.swing.JButton();
         jButtonPuissance = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
@@ -50,13 +51,13 @@ public class CalcGUI extends javax.swing.JFrame {
         jButtonAdd = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
-        jButtonParentheseFermante = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButtonPoint = new javax.swing.JButton();
         jButton0 = new javax.swing.JButton();
         jButtonEgal = new javax.swing.JButton();
+        jButtonPlusMoins = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("CalculetteJavaV3");
@@ -64,24 +65,29 @@ public class CalcGUI extends javax.swing.JFrame {
         setBounds(new java.awt.Rectangle(0, 0, 0, 0));
         setPreferredSize(new java.awt.Dimension(400, 640));
 
+        jTextFieldCalcul.setEditable(false);
         jTextFieldCalcul.setBackground(new java.awt.Color(38, 166, 154));
-        jTextFieldCalcul.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        jTextFieldCalcul.setFont(new java.awt.Font("Roboto", 0, 16)); // NOI18N
         jTextFieldCalcul.setForeground(new java.awt.Color(255, 255, 255));
         jTextFieldCalcul.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jTextFieldCalcul.setText("Affichage Calcul");
+        jTextFieldCalcul.setToolTipText("Chaine de calcul complète");
         jTextFieldCalcul.setFocusable(false);
 
+        jTextFieldSaisie.setEditable(false);
         jTextFieldSaisie.setBackground(new java.awt.Color(0, 137, 123));
-        jTextFieldSaisie.setFont(new java.awt.Font("Roboto Light", 1, 20)); // NOI18N
+        jTextFieldSaisie.setFont(new java.awt.Font("Roboto Light", 1, 22)); // NOI18N
         jTextFieldSaisie.setForeground(new java.awt.Color(255, 255, 255));
         jTextFieldSaisie.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jTextFieldSaisie.setText("Affichage Saisie");
+        jTextFieldSaisie.setToolTipText("Valeur saisie avant opération");
         jTextFieldSaisie.setFocusable(false);
 
         jButtonCE.setBackground(new java.awt.Color(255, 61, 0));
         jButtonCE.setFont(new java.awt.Font("Roboto Condensed Light", 1, 24)); // NOI18N
         jButtonCE.setForeground(new java.awt.Color(255, 255, 255));
         jButtonCE.setText("CE");
+        jButtonCE.setToolTipText("Efface la valeur saisie");
         jButtonCE.setPreferredSize(new java.awt.Dimension(60, 60));
         jButtonCE.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -93,6 +99,7 @@ public class CalcGUI extends javax.swing.JFrame {
         jButtonC.setFont(new java.awt.Font("Roboto Condensed Light", 1, 24)); // NOI18N
         jButtonC.setForeground(new java.awt.Color(255, 255, 255));
         jButtonC.setText("C");
+        jButtonC.setToolTipText("Remet à zéro la calculette");
         jButtonC.setPreferredSize(new java.awt.Dimension(60, 60));
         jButtonC.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -111,11 +118,27 @@ public class CalcGUI extends javax.swing.JFrame {
             }
         });
 
+        jButtonParentheseFermante.setBackground(new java.awt.Color(96, 125, 139));
+        jButtonParentheseFermante.setFont(new java.awt.Font("Roboto Condensed Light", 1, 24)); // NOI18N
+        jButtonParentheseFermante.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonParentheseFermante.setText(")");
+        jButtonParentheseFermante.setPreferredSize(new java.awt.Dimension(60, 60));
+        jButtonParentheseFermante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonParentheseFermanteActionPerformed(evt);
+            }
+        });
+
         jButtonPuissance.setBackground(new java.awt.Color(96, 125, 139));
         jButtonPuissance.setFont(new java.awt.Font("Roboto Condensed Light", 1, 24)); // NOI18N
         jButtonPuissance.setForeground(new java.awt.Color(255, 255, 255));
         jButtonPuissance.setText("^");
         jButtonPuissance.setPreferredSize(new java.awt.Dimension(60, 60));
+        jButtonPuissance.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPuissanceActionPerformed(evt);
+            }
+        });
 
         jButton7.setBackground(new java.awt.Color(38, 50, 56));
         jButton7.setFont(new java.awt.Font("Roboto Condensed Light", 1, 24)); // NOI18N
@@ -155,18 +178,33 @@ public class CalcGUI extends javax.swing.JFrame {
         jButtonMult.setForeground(new java.awt.Color(255, 255, 255));
         jButtonMult.setText("*");
         jButtonMult.setPreferredSize(new java.awt.Dimension(60, 60));
+        jButtonMult.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonMultActionPerformed(evt);
+            }
+        });
 
         jButtonDiv.setBackground(new java.awt.Color(96, 125, 139));
         jButtonDiv.setFont(new java.awt.Font("Roboto Condensed Light", 1, 24)); // NOI18N
         jButtonDiv.setForeground(new java.awt.Color(255, 255, 255));
         jButtonDiv.setText("/");
         jButtonDiv.setPreferredSize(new java.awt.Dimension(60, 60));
+        jButtonDiv.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDivActionPerformed(evt);
+            }
+        });
 
         jButtonSous.setBackground(new java.awt.Color(96, 125, 139));
         jButtonSous.setFont(new java.awt.Font("Roboto Condensed Light", 1, 24)); // NOI18N
         jButtonSous.setForeground(new java.awt.Color(255, 255, 255));
         jButtonSous.setText("-");
         jButtonSous.setPreferredSize(new java.awt.Dimension(60, 60));
+        jButtonSous.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSousActionPerformed(evt);
+            }
+        });
 
         jButton4.setBackground(new java.awt.Color(38, 50, 56));
         jButton4.setFont(new java.awt.Font("Roboto Condensed Light", 1, 24)); // NOI18N
@@ -184,6 +222,11 @@ public class CalcGUI extends javax.swing.JFrame {
         jButtonAdd.setForeground(new java.awt.Color(255, 255, 255));
         jButtonAdd.setText("+");
         jButtonAdd.setPreferredSize(new java.awt.Dimension(60, 60));
+        jButtonAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAddActionPerformed(evt);
+            }
+        });
 
         jButton6.setBackground(new java.awt.Color(38, 50, 56));
         jButton6.setFont(new java.awt.Font("Roboto Condensed Light", 1, 24)); // NOI18N
@@ -206,12 +249,6 @@ public class CalcGUI extends javax.swing.JFrame {
                 ClicNombres(evt);
             }
         });
-
-        jButtonParentheseFermante.setBackground(new java.awt.Color(96, 125, 139));
-        jButtonParentheseFermante.setFont(new java.awt.Font("Roboto Condensed Light", 1, 24)); // NOI18N
-        jButtonParentheseFermante.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonParentheseFermante.setText(")");
-        jButtonParentheseFermante.setPreferredSize(new java.awt.Dimension(60, 60));
 
         jButton1.setBackground(new java.awt.Color(38, 50, 56));
         jButton1.setFont(new java.awt.Font("Roboto Condensed Light", 1, 24)); // NOI18N
@@ -273,6 +310,22 @@ public class CalcGUI extends javax.swing.JFrame {
         jButtonEgal.setForeground(new java.awt.Color(255, 255, 255));
         jButtonEgal.setText("=");
         jButtonEgal.setPreferredSize(new java.awt.Dimension(60, 60));
+        jButtonEgal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEgalActionPerformed(evt);
+            }
+        });
+
+        jButtonPlusMoins.setBackground(new java.awt.Color(38, 50, 56));
+        jButtonPlusMoins.setFont(new java.awt.Font("Roboto Condensed Light", 1, 24)); // NOI18N
+        jButtonPlusMoins.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonPlusMoins.setText("+/-");
+        jButtonPlusMoins.setPreferredSize(new java.awt.Dimension(60, 60));
+        jButtonPlusMoins.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPlusMoinsActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -299,16 +352,6 @@ public class CalcGUI extends javax.swing.JFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jButtonSous, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(layout.createSequentialGroup()
-                            .addComponent(jButtonC, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jButtonCE, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jButtonParentheseOuvrante, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jButtonParentheseFermante, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(6, 6, 6)
-                            .addComponent(jButtonPuissance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
                             .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -317,18 +360,31 @@ public class CalcGUI extends javax.swing.JFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jButtonMult, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(6, 6, 6)
-                            .addComponent(jButtonDiv, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jButtonDiv, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jButtonC, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButtonCE, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButtonParentheseOuvrante, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButtonParentheseFermante, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(6, 6, 6)
+                            .addComponent(jButtonPuissance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jButton0, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
+                            .addComponent(jButton0, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
-                            .addComponent(jButtonPoint, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButtonPoint, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButtonPlusMoins, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonEgal, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -343,7 +399,7 @@ public class CalcGUI extends javax.swing.JFrame {
                 .addComponent(jTextFieldCalcul, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextFieldSaisie, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(46, 46, 46)
+                .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jButtonCE, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonC, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -373,11 +429,12 @@ public class CalcGUI extends javax.swing.JFrame {
                                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButtonPoint, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
+                            .addComponent(jButtonPoint, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonPlusMoins, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton0, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(jButtonEgal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButton4, jButton5, jButton6, jButton7, jButton8, jButton9, jButtonAdd, jButtonC, jButtonCE, jButtonDiv, jButtonMult, jButtonParentheseFermante, jButtonParentheseOuvrante, jButtonPuissance, jButtonSous});
@@ -400,52 +457,203 @@ public class CalcGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Renvoie l'avant dernier caractere de la chaine de calcul
+     * @return String L'avant dernier caractère
+     */
+    private String avantDernierCarCalcul() {
+        return jTextFieldCalcul.getText().substring(jTextFieldCalcul.getText().length() - 2, jTextFieldCalcul.getText().length() -1);
+    }
+    
+    private String dernierCarSaisie() {
+        return jTextFieldSaisie.getText().substring(jTextFieldSaisie.getText().length() - 1, jTextFieldSaisie.getText().length());
+    }
+    private void viderCalcul() {
+        jTextFieldCalcul.setText(null);
+    }
+    
+    private void viderSaisie() {
+        jTextFieldSaisie.setText(null);
+    }
+    
+    private void degagePoint() {
+        if (".".equals(dernierCarSaisie())) {
+                    jTextFieldSaisie.setText(jTextFieldSaisie.getText().substring(0, jTextFieldSaisie.getText().length() - 1));
+                }
+    }
+    
+    private boolean divisionParZero() {
+        return jTextFieldSaisie.getText().contains("Division par zéro impossible") || jTextFieldCalcul.getText().contains("Division par zéro impossible");
+    }
+    
+    private void verifAjoutOperateur(String operateur) {
+        if (!divisionParZero()) {
+            // Si la ligne de calcul n'est pas vide et que la saisie est vide, et que la ligne de calcul ne se termine ni par un opérateur, ni par une parenthèse ouvrante
+            // => donc qu'elle se termine par une parenthese fermante ou un chiffre
+            // => on pousse l'opérateur dans la ligne de calcul
+            if (!jTextFieldCalcul.getText().isEmpty() && jTextFieldSaisie.getText().isEmpty() && !"(".equals(avantDernierCarCalcul())) {
+                // Si la ligne de calcul se termine par un opérateur => on le dégage.
+                if (CalculetteV3.operateurs.containsKey(avantDernierCarCalcul())) {
+                    jTextFieldCalcul.setText(jTextFieldCalcul.getText().substring(0, jTextFieldCalcul.getText().length() - 2));
+                }
+                jTextFieldCalcul.setText(jTextFieldCalcul.getText() + operateur + " ");
+            } else
+                // Sinon, si la saisie n'est pas vide, on pousse la saisie dans le calcul, après avoir vérifié que:
+                // - la ligne de calcul est vide
+                // - ou la ligne de calcul se termine bien par un opérateur ou une parenthese ouvrante
+                // - Le dernier caractère de la ligne de saisie n'est pas un point tout seul (si c'est le cas, il dégage)
+                if (!jTextFieldSaisie.getText().isEmpty()) {
+                    degagePoint();
+                    if (jTextFieldCalcul.getText().isEmpty()) {
+                        jTextFieldCalcul.setText(jTextFieldCalcul.getText() + jTextFieldSaisie.getText() + " " + operateur + " ");
+                        viderSaisie();
+                    } else if (CalculetteV3.operateurs.containsKey(avantDernierCarCalcul())  || "(".equals(avantDernierCarCalcul()) ) {
+                        jTextFieldCalcul.setText(jTextFieldCalcul.getText() + jTextFieldSaisie.getText() + " " + operateur + " ");
+                        viderSaisie();
+                    }
+            }
+        }
+    }
+    
     private void ClicNombres(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClicNombres
-        JButton boutonCliqué = (JButton) evt.getSource();
-        // Si jamais on a déjà rentré des chiffres
-        if (!"0".equals(jTextFieldSaisie.getText())) {
-                    jTextFieldSaisie.setText(jTextFieldSaisie.getText() + boutonCliqué.getText());
-        } else {
-            jTextFieldSaisie.setText(boutonCliqué.getText()); 
+        
+        if (!divisionParZero()) {
+            JButton boutonCliqué = (JButton) evt.getSource();
+        jTextFieldSaisie.setText(jTextFieldSaisie.getText() + boutonCliqué.getText());
         }
     }//GEN-LAST:event_ClicNombres
 
     private void jButtonPointActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPointActionPerformed
-        if (!jTextFieldSaisie.getText().contains(".")) {
-            jTextFieldSaisie.setText(jTextFieldSaisie.getText() + ".");
-       }
+        if (!divisionParZero()) {
+            if (!jTextFieldSaisie.getText().contains(".")) {
+                jTextFieldSaisie.setText(jTextFieldSaisie.getText() + ".");
+           }
+        }
     }//GEN-LAST:event_jButtonPointActionPerformed
 
     private void jButtonParentheseOuvranteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonParentheseOuvranteActionPerformed
-        // Si la ligne de calcul est vide ou si l'avant dernier caractere de la ligne de calcul est une parenthese, on peut ajouter une parenthese
-        if (jTextFieldCalcul.getText().isEmpty() || '(' == jTextFieldCalcul.getText().charAt(jTextFieldCalcul.getText().length() - 2) ) {
-            jTextFieldCalcul.setText(jTextFieldCalcul.getText() + "( ");
-            compteurParentheses++;
-        } else {
-            // Sinon si l'avant dernier caractère n'est pas un int (donc un opérateur, ou rien du tout)
-            try {
-                int dernierCaractere = Integer.parseInt(jTextFieldCalcul.getText().substring(-2, -2));
-            }
-            catch (Exception e) {
-            // Alors on peut rajouter la parenthese, et incrementer le  compteur des parentheses ouvertes
+        if (!divisionParZero()) {
+            // Si la ligne de calcul est vide
+            // Ou si l'avant dernier caractere de la ligne de calcul est une parenthese
+            // Ou si l'avant dernier caractère est un opérateur
+            // => On peut ajouter une parenthese
+            if (jTextFieldCalcul.getText().isEmpty() || "(".equals(avantDernierCarCalcul()) || CalculetteV3.operateurs.containsKey(avantDernierCarCalcul()) ) {
                 jTextFieldCalcul.setText(jTextFieldCalcul.getText() + "( ");
                 compteurParentheses++;
             }
         }
-        
-        
-                
-        
     }//GEN-LAST:event_jButtonParentheseOuvranteActionPerformed
 
     private void jButtonCEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCEActionPerformed
-        jTextFieldSaisie.setText("0");
+        viderSaisie();
     }//GEN-LAST:event_jButtonCEActionPerformed
 
     private void jButtonCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCActionPerformed
-        jTextFieldSaisie.setText("0");
-        jTextFieldCalcul.setText(null);
+        viderSaisie();
+        viderCalcul();
     }//GEN-LAST:event_jButtonCActionPerformed
+
+    private void jButtonParentheseFermanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonParentheseFermanteActionPerformed
+        // Si une parenthese a déjà été ouverte
+        if (compteurParentheses > 0) {
+            // Si la ligne de calcul n'est pas vide et que l'avant dernier caractère de la ligne de calcul n'est pas un opérateur (donc un int ou une parenthèse fermante)
+            if (!jTextFieldCalcul.getText().isEmpty() && jTextFieldSaisie.getText().isEmpty()) {
+                // Si l'avant dernier caractere est un opérateur => on le dégage
+                if (CalculetteV3.operateurs.containsKey(avantDernierCarCalcul())) {
+                    jTextFieldCalcul.setText(jTextFieldCalcul.getText().substring(0, jTextFieldCalcul.getText().length() - 2));
+                }
+                jTextFieldCalcul.setText(jTextFieldCalcul.getText() + ") ");
+            } else // Si la saisie n'est pas vide => on ajoute au calcul
+                if (!jTextFieldSaisie.getText().isEmpty()) {
+                    degagePoint();
+                    jTextFieldCalcul.setText(jTextFieldCalcul.getText() + jTextFieldSaisie.getText() + " ) ");
+            }
+            viderSaisie();
+            compteurParentheses--;
+        }
+    }//GEN-LAST:event_jButtonParentheseFermanteActionPerformed
+
+    private void jButtonPuissanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPuissanceActionPerformed
+        verifAjoutOperateur("^");
+    }//GEN-LAST:event_jButtonPuissanceActionPerformed
+
+    private void jButtonMultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMultActionPerformed
+        verifAjoutOperateur("*");
+    }//GEN-LAST:event_jButtonMultActionPerformed
+
+    private void jButtonDivActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDivActionPerformed
+        verifAjoutOperateur("/");
+    }//GEN-LAST:event_jButtonDivActionPerformed
+
+    private void jButtonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddActionPerformed
+        verifAjoutOperateur("+");
+    }//GEN-LAST:event_jButtonAddActionPerformed
+
+    private void jButtonSousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSousActionPerformed
+        verifAjoutOperateur("-");
+    }//GEN-LAST:event_jButtonSousActionPerformed
+
+    private void jButtonEgalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEgalActionPerformed
+        if (!divisionParZero()) {
+            //d'abord verifier si
+            // la saisie est vide. si elle est pleine => on l'ajoute (même principe que pour les opérateurs, sans ajout)
+            // si la ligne de calcul termine par un int. si elle termine par un opérateur et que la saisie est vide => on degage les 2 derniers caracteres du calcul
+            // Si toutes les parentheses sont fermées. si c'est pas le cas, on les ferme
+            if (!jTextFieldSaisie.getText().isEmpty()) {
+                    // Si la ligne de calcul n'est pas vide et que la saisie est vide, et que la ligne de calcul ne se termine ni par un opérateur, ni par une parenthèse ouvrante
+                // => donc qu'elle se termine par une parenthese fermante ou un chiffre
+                // => on pousse l'opérateur dans la ligne de calcul
+                if (!jTextFieldCalcul.getText().isEmpty() && jTextFieldSaisie.getText().isEmpty() && !"(".equals(avantDernierCarCalcul())) {
+                    // Si la ligne de calcul se termine par un opérateur => on le dégage.
+                    if (CalculetteV3.operateurs.containsKey(avantDernierCarCalcul())) {
+                        jTextFieldCalcul.setText(jTextFieldCalcul.getText().substring(0, jTextFieldCalcul.getText().length() - 2));
+                    }
+                    jTextFieldCalcul.setText(jTextFieldCalcul.getText() + " ");
+                } else
+                    // Sinon, si la saisie n'est pas vide, on pousse la saisie dans le calcul, après avoir vérifié que:
+                    // - la ligne de calcul est vide
+                    // - ou la ligne de calcul se termine bien par un opérateur ou une parenthese ouvrante
+                    // - Le dernier caractère de la ligne de saisie n'est pas un point tout seul (si c'est le cas, il dégage)
+                    if (!jTextFieldSaisie.getText().isEmpty()) {
+                        degagePoint();
+                        if (jTextFieldCalcul.getText().isEmpty()) {
+                            jTextFieldCalcul.setText(jTextFieldCalcul.getText() + jTextFieldSaisie.getText() + " ");
+                            viderSaisie();
+                        } else if (CalculetteV3.operateurs.containsKey(avantDernierCarCalcul())  || "(".equals(avantDernierCarCalcul()) ) {
+                            jTextFieldCalcul.setText(jTextFieldCalcul.getText() + jTextFieldSaisie.getText() + " ");
+                            viderSaisie();
+                        }
+                }
+            }
+            if (CalculetteV3.operateurs.containsKey(avantDernierCarCalcul()) && jTextFieldSaisie.getText().isEmpty()) {
+                jTextFieldCalcul.setText(jTextFieldCalcul.getText().substring(0, jTextFieldCalcul.getText().length() - 2));
+            }
+            if (compteurParentheses > 0) {
+                for (int i = 0; i <= compteurParentheses; i++) {
+                    jTextFieldCalcul.setText(jTextFieldCalcul.getText() + jTextFieldSaisie.getText() + ") ");
+                    compteurParentheses--;
+                }
+            }
+            String postfix = CalculetteV3.calculToPostfix(jTextFieldCalcul.getText());
+            String resultat = CalculetteV3.postfixToResultat(postfix);
+            if (resultat.contains("Infinity")) {
+//                System.out.println("oui");
+                resultat = "Division par zéro impossible";
+            }
+            jTextFieldCalcul.setText(resultat + " ");
+            jTextFieldSaisie.setText(null);
+        }
+    }//GEN-LAST:event_jButtonEgalActionPerformed
+
+    private void jButtonPlusMoinsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPlusMoinsActionPerformed
+        if (!divisionParZero() && !jTextFieldSaisie.getText().isEmpty()) {
+            if ("-".equals(jTextFieldSaisie.getText().substring(0, 1))) {
+                jTextFieldSaisie.setText(jTextFieldSaisie.getText().substring(1, jTextFieldSaisie.getText().length()));
+            } else {
+                jTextFieldSaisie.setText("-" + jTextFieldSaisie.getText());
+            }
+        }
+    }//GEN-LAST:event_jButtonPlusMoinsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -503,6 +711,7 @@ public class CalcGUI extends javax.swing.JFrame {
     private javax.swing.JButton jButtonMult;
     private javax.swing.JButton jButtonParentheseFermante;
     private javax.swing.JButton jButtonParentheseOuvrante;
+    private javax.swing.JButton jButtonPlusMoins;
     private javax.swing.JButton jButtonPoint;
     private javax.swing.JButton jButtonPuissance;
     private javax.swing.JButton jButtonSous;

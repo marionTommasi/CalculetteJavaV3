@@ -487,7 +487,7 @@ public class CalcGUI extends javax.swing.JFrame  {
     }
     
     private void verifAjoutOperateur(String operateur) {
-        if (!divisionParZero()) {
+        if (!divisionParZero()) {         
             // Si la ligne de calcul n'est pas vide et que la saisie est vide, et que la ligne de calcul ne se termine ni par un opérateur, ni par une parenthèse ouvrante
             // => donc qu'elle se termine par une parenthese fermante ou un chiffre
             // => on pousse l'opérateur dans la ligne de calcul
@@ -504,12 +504,26 @@ public class CalcGUI extends javax.swing.JFrame  {
                 // - Le dernier caractère de la ligne de saisie n'est pas un point tout seul (si c'est le cas, il dégage)
                 if (!jTextFieldSaisie.getText().isEmpty()) {
                     degagePoint();
+                    
                     if (jTextFieldCalcul.getText().isEmpty()) {
                         jTextFieldCalcul.setText(jTextFieldCalcul.getText() + jTextFieldSaisie.getText() + " " + operateur + " ");
                         viderSaisie();
                     } else if (CalculetteV3.operateurs.containsKey(avantDernierCarCalcul())  || "(".equals(avantDernierCarCalcul()) ) {
                         jTextFieldCalcul.setText(jTextFieldCalcul.getText() + jTextFieldSaisie.getText() + " " + operateur + " ");
                         viderSaisie();
+                    } else {
+                        // On essaie de parser en Double ce qu'il y a dans la ligne de calcul
+                    
+                        Double nombreDecimal = null;
+                        try {
+                            nombreDecimal = Double.parseDouble(jTextFieldCalcul.getText());
+                        } catch (NumberFormatException e) {} 
+                        // Si c'est bien un double: on vide le calcul et on pousse la saisie dedans.
+                        if (nombreDecimal != null) {
+                            viderCalcul();
+                            jTextFieldCalcul.setText(jTextFieldCalcul.getText() + jTextFieldSaisie.getText() + " " + operateur + " ");
+                            viderSaisie();
+                        }   
                     }
             }
         }

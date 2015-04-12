@@ -562,7 +562,13 @@ public class CalcGUI extends javax.swing.JFrame  {
                 if (CalculetteV3.operateurs.containsKey(avantDernierCarCalcul())) {
                     jTextFieldCalcul.setText(jTextFieldCalcul.getText().substring(0, jTextFieldCalcul.getText().length() - 2));
                 }
-                jTextFieldCalcul.setText(jTextFieldCalcul.getText() + ") ");
+                // Si l'avant dernier caractère est une parenthèse ouvrante: on la dégage et on ajoute rien
+                if ("(".equals(avantDernierCarCalcul())) {
+                    jTextFieldCalcul.setText(jTextFieldCalcul.getText().substring(0, jTextFieldCalcul.getText().length() - 2));
+                } else {
+                    // Sinon, on ajoute la parenthese fermante
+                    jTextFieldCalcul.setText(jTextFieldCalcul.getText() + ") ");
+                }
             } else // Si la saisie n'est pas vide => on ajoute au calcul
                 if (!jTextFieldSaisie.getText().isEmpty()) {
                     degagePoint();
@@ -634,6 +640,7 @@ public class CalcGUI extends javax.swing.JFrame  {
                     compteurParentheses--;
                 }
             }
+            
             String postfix = CalculetteV3.calculToPostfix(jTextFieldCalcul.getText());
             String resultat = CalculetteV3.postfixToResultat(postfix);
             if (resultat.contains("Infinity")) {

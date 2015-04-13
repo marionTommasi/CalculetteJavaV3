@@ -470,6 +470,7 @@ public class CalcGUI extends javax.swing.JFrame  {
     }
     private void viderCalcul() {
         jTextFieldCalcul.setText(null);
+        compteurParentheses = 0;
     }
     
     private void viderSaisie() {
@@ -615,6 +616,14 @@ public class CalcGUI extends javax.swing.JFrame  {
 
     private void jButtonEgalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEgalActionPerformed
         if (!divisionParZero()) {
+            // On ferme toutes les parentheses.
+            if (compteurParentheses > 0) {
+            for (int i = compteurParentheses; i >= 0; i--) {
+                jButtonParentheseFermanteActionPerformed(evt);
+//                    jTextFieldCalcul.setText(jTextFieldCalcul.getText() + jTextFieldSaisie.getText() + ") ");
+                }
+            }
+            
             //d'abord verifier si
             // la saisie est vide. si elle est pleine => on l'ajoute (même principe que pour les opérateurs, sans ajout)
             // si la ligne de calcul termine par un int. si elle termine par un opérateur et que la saisie est vide => on degage les 2 derniers caracteres du calcul
@@ -645,15 +654,11 @@ public class CalcGUI extends javax.swing.JFrame  {
                         }
                 }
             }
+           
             if (CalculetteV3.operateurs.containsKey(avantDernierCarCalcul()) && jTextFieldSaisie.getText().isEmpty()) {
                 jTextFieldCalcul.setText(jTextFieldCalcul.getText().substring(0, jTextFieldCalcul.getText().length() - 2));
             }
-            if (compteurParentheses > 0) {
-                for (int i = 0; i <= compteurParentheses; i++) {
-                    jTextFieldCalcul.setText(jTextFieldCalcul.getText() + jTextFieldSaisie.getText() + ") ");
-                    compteurParentheses--;
-                }
-            }
+
             
             String postfix = CalculetteV3.calculToPostfix(jTextFieldCalcul.getText());
             String resultat = CalculetteV3.postfixToResultat(postfix);
